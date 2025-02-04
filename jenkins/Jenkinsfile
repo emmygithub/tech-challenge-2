@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    environment {
+        AWS_REGION = 'us-east-1'
+        ECR_BACKEND = 'YOUR_ECR_BACKEND_IMAGE'
+        ECR_FRONTEND = 'YOUR_ECR_FRONTEND_IMAGE'
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/YOUR_GITHUB_REPO.git'
+            }
+        }
+
+        stage('Build Backend Image') {
+            steps {
+                sh 'docker build -t $ECR_BACKEND ./backend'
+                sh 'docker push $ECR_BACKEND'
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                sh 'docker build -t $ECR_FRONTEND ./frontend'
+                sh 'docker push $ECR_FRONTEND'
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+}
