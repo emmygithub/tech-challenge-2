@@ -2,8 +2,8 @@ pipeline {
     agent any
     environment {
         AWS_REGION = 'us-east-1'
-        ECR_BACKEND = 'YOUR_ECR_BACKEND_IMAGE'
-        ECR_FRONTEND = 'YOUR_ECR_FRONTEND_IMAGE'
+        ECR_BACKEND = '569681419462.dkr.ecr.us-east-1.amazonaws.com/backend-repo'
+        ECR_FRONTEND = '569681419462.dkr.ecr.us-east-1.amazonaws.com/frontend-repo'
     }
     stages {
         stage('Clone Repository') {
